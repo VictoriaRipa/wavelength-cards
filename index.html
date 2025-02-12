@@ -17,10 +17,58 @@
             background: black;
             color: white;
             overflow: hidden;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .login-container {
+            text-align: center;
+        }
+        .password-input {
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+        }
+        .login-btn {
+            background: linear-gradient(135deg, #ff8c00, #ff4500);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        .login-btn:hover {
+            animation: shake 0.3s ease-in-out infinite alternate;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(5px); }
+        }
+        .message {
+            font-size: 24px;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .game-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         .image-container {
             width: 100%;
-            height: 85vh; /* Make the image container occupy most of the screen */
+            height: 70vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,10 +76,12 @@
         .image-container img {
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* Ensure the image maintains its aspect ratio */
+            object-fit: contain;
         }
         .btn-container {
-            margin-top: 0; /* Removed the space between the image and the button */
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
         }
         .btn {
             background: linear-gradient(135deg, #0056b3, #007BFF);
@@ -42,8 +92,6 @@
             font-size: 30px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            top: -90px; /* Move the button upwards even more */
         }
         .btn:hover {
             transform: scale(1.1);
@@ -55,17 +103,51 @@
     </style>
 </head>
 <body>
-    <!-- Image container -->
-    <div class="image-container">
-        <img id="cardImage" src="" alt="Card Image">
+    <!-- Pantalla de inicio con contraseña -->
+    <div id="loginScreen" class="login-container">
+        <p class="message" id="welcomeMessage"></p>
+        <input type="password" id="passwordInput" class="password-input" placeholder="Ingresá la contraseña">
+        <br>
+        <button class="login-btn" onclick="checkPassword()">Entrar</button>
     </div>
-    
-    <!-- Button container -->
-    <div class="btn-container">
-        <button class="btn" onclick="generateNewCard()">Nueva tarjeta</button>
+
+    <!-- Juego de tarjetas -->
+    <div id="gameScreen" class="game-container">
+        <div class="image-container">
+            <img id="cardImage" src="" alt="Card Image">
+        </div>
+        <div class="btn-container">
+            <button class="btn" onclick="generateNewCard()">Nueva tarjeta</button>
+        </div>
     </div>
 
     <script>
+        const correctPassword = "juegazo"; // Cambiá esto por la contraseña real
+        const welcomeText = "🎉 ¡Gracias por tu compra! 🎉";
+        let i = 0;
+
+        function typeWriter() {
+            if (i < welcomeText.length) {
+                document.getElementById("welcomeMessage").textContent += welcomeText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+
+        document.getElementById("welcomeMessage").style.opacity = "1";
+        typeWriter();
+
+        function checkPassword() {
+            const inputPassword = document.getElementById("passwordInput").value;
+            if (inputPassword === correctPassword) {
+                document.getElementById("loginScreen").style.display = "none";
+                document.getElementById("gameScreen").style.display = "flex";
+                generateNewCard();
+            } else {
+                alert("Contraseña incorrecta. Intentá de nuevo.");
+            }
+        }
+
         const cardImages = [];
         for (let i = 1; i <= 140; i++) {
             cardImages.push(`./assets/${i}.png`);
@@ -76,9 +158,6 @@
             const newImage = cardImages[randomIndex];
             document.getElementById('cardImage').src = newImage;
         }
-
-        // Set initial card image
-        generateNewCard();
     </script>
 </body>
 </html>
