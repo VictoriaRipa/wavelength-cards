@@ -1,84 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wavelength Card Game</title>
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: black;
-            color: white;
-            overflow: hidden;
-        }
-        .image-container {
-            width: 100%;
-            height: 85vh; /* Make the image container occupy most of the screen */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .image-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Ensure the image maintains its aspect ratio */
-        }
-        .btn-container {
-            margin-top: 0; /* Removed the space between the image and the button */
-        }
-        .btn {
-            background: linear-gradient(135deg, #0056b3, #007BFF);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-size: 30px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-            top: -90px; /* Move the button upwards even more */
-        }
-        .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-        }
-        .btn:active {
-            transform: scale(0.95);
-        }
-    </style>
-</head>
-<body>
-    <!-- Image container -->
-    <div class="image-container">
-        <img id="cardImage" src="" alt="Card Image">
-    </div>
-    
-    <!-- Button container -->
-    <div class="btn-container">
-        <button class="btn" onclick="generateNewCard()">Nueva tarjeta</button>
-    </div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wavelength Card Game</title>
+        <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background: black;
+                color: white;
+                overflow: hidden;
+            }
 
-    <script>
-        const cardImages = [];
-        for (let i = 1; i <= 140; i++) {
-            cardImages.push(`./assets/${i}.png`);
-        }
+            /* Pantalla de Contraseña */
+            #passwordScreen {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.9);
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                opacity: 1;
+            }
 
-        function generateNewCard() {
-            const randomIndex = Math.floor(Math.random() * cardImages.length);
-            const newImage = cardImages[randomIndex];
-            document.getElementById('cardImage').src = newImage;
-        }
+            #passwordScreen h1 {
+                font-size: 3em;
+                color: #bebebe;
+                margin-bottom: 20px;
+                animation: bounce 1s ease-in-out infinite alternate;
+            }
 
-        // Set initial card image
-        generateNewCard();
-    </script>
-</body>
-</html>
+            #passwordScreen input {
+                padding: 15px;
+                font-size: 18px;
+                border-radius: 10px;
+                width: 250px;
+                border: 2px solid #fff;
+                margin-top: 10px;
+                background: #333;
+                color: white;
+                text-align: center;
+                transition: all 0.3s ease-in-out;
+            }
+
+            #passwordScreen input:focus {
+                border-color: #ffcc00;
+                background: #444;
+            }
+
+            #passwordScreen button {
+                padding: 15px 30px;
+                margin-top: 20px;
+                font-size: 1.2em;
+                background: linear-gradient(135deg, #0056b3, #007BFF);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            #passwordScreen button:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            }
+
+            /* Estilos para las cartas */
+            .image-container {
+                width: 100%;
+                height: 80vh; /* Reduce un poco la altura de las cartas para dar más espacio al botón */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .image-container img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+
+            /* Contenedor general de cartas y botón */
+            #mainContent {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+            }
+
+            .btn-container {
+                margin-top: 20px; /* Espacio suficiente entre las cartas y el botón */
+            }
+
+            .btn {
+                background: linear-gradient(135deg, #0056b3, #007BFF);
+                color: white;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 15px;
+                font-size: 30px;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+            }
+
+            .btn:active {
+                transform: scale(0.95);
+            }
+
+            @keyframes bounce {
+                0% { transform: translateY(0); }
+                50% { transform: translateY(-15px); }
+                100% { transform: translateY(0); }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Pantalla de Contraseña -->
+        <div id="passwordScreen">
+            <h1>🎉 ¡Gracias por tu compra! 🎉</h1>
+            <p>🔐 ¿Tenes la clave?</p>
+            <input type="password" id="passwordInput" placeholder="Escribila aca..." autocomplete="off">
+            <button id="enterButton">¡Vamos al juego!</button>
+        </div>
+
+        <!-- Image container (Cartas) -->
+        <div id="mainContent">
+            <div class="image-container">
+                <img id="cardImage" src="" alt="Card Image">
+            </div>
+            <div class="btn-container">
+                <button class="btn" onclick="generateNewCard()">Nueva tarjeta</button>
+            </div>
+        </div>
+
+        <script>
+            const correctPassword = "juegazo"; // Clave correcta
+            const cardImages = [];
+            for (let i = 1; i <= 140; i++) {
+                cardImages.push(`./assets/${i}.png`);
+            }
+
+            // Función para verificar la contraseña
+            function checkPassword() {
+                const inputPassword = document.getElementById('passwordInput').value;
+                if (inputPassword === correctPassword) {
+                    // Si la contraseña es correcta, ocultamos la pantalla de clave y mostramos las cartas
+                    document.getElementById('passwordScreen').style.display = 'none';
+                    document.getElementById('mainContent').style.opacity = 1;
+                    generateNewCard(); // Generar una tarjeta aleatoria
+                } else {
+                    alert("⚠️ ¡Ups! ¿Compraste el juego? ");
+                }
+            }
+
+            // Función para generar una tarjeta aleatoria
+            function generateNewCard() {
+                const randomIndex = Math.floor(Math.random() * cardImages.length);
+                const newImage = cardImages[randomIndex];
+                document.getElementById('cardImage').src = newImage;
+            }
+
+            // Asignar el evento click para el botón de la contraseña
+            document.getElementById('enterButton').addEventListener('click', checkPassword);
+
+            // Set inicial de la carta
+            generateNewCard();
+        </script>
+    </body>
+    </html>
