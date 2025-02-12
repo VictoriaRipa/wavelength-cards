@@ -37,7 +37,7 @@
 
         #passwordScreen h1 {
             font-size: 3em;
-            color: #ffcc00;
+            color: #fdfdfd;
             margin-bottom: 20px;
             animation: bounce 1s ease-in-out infinite alternate;
         }
@@ -79,18 +79,18 @@
 
         /* Estilos para las cartas */
         .image-container {
-            width: 90%; /* Aumentamos el ancho de las cartas */
-            height: 70vh; /* Las cartas siguen ocupando el 70% de la altura */
+            width: 100%; /* Ancho de las cartas casi todo el ancho */
+            height: 85vh; /* Aumentamos la altura para que ocupe más de la pantalla */
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 20px;
+            
         }
 
         .image-container img {
-            max-width: 90%; /* Aumentamos el tamaño máximo de las cartas */
-            max-height: 90%; /* Permitimos que las cartas ocupen más espacio verticalmente */
-            object-fit: contain;
+            max-width: 100%; /* Permite que las cartas ocupen el máximo ancho posible */
+            max-height: 100%; /* Permite que las cartas ocupen el máximo alto posible */
+            object-fit: contain; /* Mantiene la relación de aspecto */
         }
 
         /* Contenedor general de cartas y botón */
@@ -138,7 +138,7 @@
     <!-- Pantalla de Contraseña -->
     <div id="passwordScreen">
         <h1>🎉 ¡Gracias por tu compra! 🎉</h1>
-        <p>🔐 ¿Tenes la clave?</p>
+        <p>🔐 ¿Tenes la contraseña? </p>
         <input type="password" id="passwordInput" placeholder="Escribila aca..." autocomplete="off">
         <button id="enterButton">¡Entrar al juego!</button>
     </div>
@@ -169,7 +169,7 @@
                 document.getElementById('mainContent').style.opacity = 1;
                 generateNewCard(); // Generar una tarjeta aleatoria
             } else {
-                alert("⚠️ ¡Ups! Seguro compraste el juego?");
+                alert("⚠️ ¡Clave incorrecta! Intenta de nuevo.");
             }
         }
 
