@@ -14,9 +14,12 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: rgb(0, 0, 0);
+            background: url(fondo.png);
             color: white;
             overflow: hidden;
+            background-position: center;
+            background-size: cover; 
+            background-position: fixed;
         }
 
         /* Pantalla de Contraseña */
@@ -27,7 +30,8 @@
             align-items: center;
             width: 100%;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.9);
+            background: white;
+            color: #580661;
             position: fixed;
             top: 0;
             left: 0;
@@ -37,9 +41,15 @@
 
         #passwordScreen h1 {
             font-size: 3em;
-            color: #fdfdfd;
+            color: #580661;
             margin-bottom: 20px;
             animation: bounce 1s ease-in-out infinite alternate;
+        }
+
+        #passwordScreen p {
+            color: #580661; 
+            font-size: 1.2em;
+            font-weight: bold;
         }
 
         #passwordScreen input {
@@ -47,24 +57,26 @@
             font-size: 18px;
             border-radius: 10px;
             width: 250px;
-            border: 2px solid #fff;
+            border: 2px solid #580661;
             margin-top: 10px;
-            background: #333;
-            color: white;
+            background: white;
+            color: #580661;
             text-align: center;
             transition: all 0.3s ease-in-out;
         }
 
-        #passwordScreen input:focus {
-            border-color: #ffcc00;
-            background: #444;
+        #passwordScreen input::placeholder {
+            color: #580661;  
+            opacity: 1;
         }
+
+
 
         #passwordScreen button {
             padding: 15px 30px;
             margin-top: 20px;
             font-size: 1.2em;
-            background: linear-gradient(135deg, #0056b3, #007BFF);
+            background: linear-gradient(135deg, #580661, #C70b90);
             color: white;
             border: none;
             border-radius: 10px;
@@ -79,21 +91,18 @@
 
         /* Estilos para las cartas */
         .image-container {
-            width: 100%; /* Ancho de las cartas casi todo el ancho */
-            height: 90vh; /* Aumentamos la altura para que ocupe más de la pantalla */
+            width: 100%;
+            height: 90vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            
         }
 
         .image-container img {
-            max-width: 100%; /* Permite que las cartas ocupen el máximo ancho posible */
-            max-height: 100%; /* Permite que las cartas ocupen el máximo alto posible */
-           /* Mantiene la relación de aspecto */
+            max-width: 100%;
+            max-height: 100%;
         }
 
-        /* Contenedor general de cartas y botón */
         #mainContent {
             display: flex;
             flex-direction: column;
@@ -104,11 +113,11 @@
         }
 
         .btn-container {
-            margin-top: -150px; /* Movemos el botón hacia arriba */
+            margin-top: -120px;
         }
 
         .btn {
-            background: linear-gradient(135deg, #0056b3, #007BFF);
+            background: #580661;
             color: white;
             border: none;
             padding: 15px 30px;
@@ -120,7 +129,6 @@
 
         .btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
         }
 
         .btn:active {
@@ -135,15 +143,13 @@
     </style>
 </head>
 <body>
-    <!-- Pantalla de Contraseña -->
     <div id="passwordScreen">
         <h1>🎉 ¡Gracias por tu compra! 🎉</h1>
-        <p>🔐 ¿Tenes la contraseña? </p>
-        <input type="password" id="passwordInput" placeholder="Escribila aca..." autocomplete="off">
+        <p>🔐 ¿Tenes la contraseña?</p>
+        <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="on">
         <button id="enterButton">¡Entrar al juego!</button>
     </div>
 
-    <!-- Image container (Cartas) -->
     <div id="mainContent">
         <div class="image-container">
             <img id="cardImage" src="" alt="Card Image">
@@ -154,36 +160,31 @@
     </div>
 
     <script>
-        const correctPassword = "juegazo"; // Clave correcta
+        const correctPassword = "juegazo";
         const cardImages = [];
-        for (let i = 1; i <= 140; i++) {
+        for (let i = 1; i <= 110; i++) {
             cardImages.push(`./assets/${i}.png`);
         }
 
-        // Función para verificar la contraseña
         function checkPassword() {
             const inputPassword = document.getElementById('passwordInput').value;
             if (inputPassword === correctPassword) {
-                // Si la contraseña es correcta, ocultamos la pantalla de clave y mostramos las cartas
                 document.getElementById('passwordScreen').style.display = 'none';
                 document.getElementById('mainContent').style.opacity = 1;
-                generateNewCard(); // Generar una tarjeta aleatoria
+                generateNewCard();
             } else {
                 alert("⚠️ ¡Ups! Seguro compraste el juego?");
             }
         }
 
-        // Función para generar una tarjeta aleatoria
         function generateNewCard() {
             const randomIndex = Math.floor(Math.random() * cardImages.length);
             const newImage = cardImages[randomIndex];
             document.getElementById('cardImage').src = newImage;
         }
 
-        // Asignar el evento click para el botón de la contraseña
         document.getElementById('enterButton').addEventListener('click', checkPassword);
 
-        // Set inicial de la carta
         generateNewCard();
     </script>
 </body>
